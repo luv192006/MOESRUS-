@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CitizenConnect - Secure Government Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e40af;
+            --secondary: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --orange: #ff6600;
+            --green: #138808;
+            --white: #ffffff;
+            --saffron: #ff9933;
+            --ashoka-blue: #000080;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--saffron) 0%, var(--white) 33%, var(--green) 66%, var(--ashoka-blue) 100%);
+            background-size: 400% 400%;
+            animation: governmentGradient 15s ease infinite;
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        @keyframes governmentGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Login Page Styles */
+        .login-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            max-width: 1000px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            min-height: 600px;
+            border: 3px solid var(--saffron);
+        }
+
+        .ashoka-side {
+            background: linear-gradient(45deg, var(--saffron), var(--green));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+            color: white;
+        }
+
+        .national-emblem {
+            width: 100px;
+            height: 120px;
+            margin-bottom: 20px;
+        }
+
+        .login-form-side {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9));
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-header h1 {
+            color: var(--primary);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .login-header p {
+            color: var(--dark);
+            opacity: 0.7;
+            font-size: 1rem;
+        }
+
+        .security-badge {
+            background: linear-gradient(45deg, var(--success), #059669);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 15px 0;
+            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input.with-icon {
+            padding-left: 50px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .aadhar-format {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .login-btn, .btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(30, 64, 175, 0.3);
+        }
+
+        .login-btn:hover, .btn:hover {
+            background: linear-gradient(45deg, var(--secondary), #2563eb);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .login-options {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .login-options a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .login-options a:hover {
+            text-decoration: underline;
+            color: var(--secondary);
+        }
+
+        .government-notice {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid #0ea5e9;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            text-align: center;
+            color: #0c4a6e;
+            box-shadow: 0 2px 4px rgba(14, 165, 233, 0.1);
+        }
+
+        .motto {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 20px;
+            opacity: 0.9;
+        }
+
+        .motto-hindi {
+            font-size: 18px;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Dashboard Styles */
+        .dashboard-page {
+            display: none;
+        }
+
+        .dashboard-page.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border: 2px solid var(--saffron);
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            color: var(--dark);
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        .user-info {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, var(--danger), #dc2626);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(239, 68, 68, 0.4);
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9));
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-tab:hover {
+            background: linear-gradient(135deg, white, #f8fafc);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--saffron);
+            position: relative;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, var(--success), #059669);
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, var(--warning), #d97706);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, var(--danger), #dc2626);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, white, #f8fafc);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 2px solid var(--border);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 153, 51, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, white, #f8fafc);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border-left: 5px solid var(--primary);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .complaint-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: linear-gradient(45deg, #fef3c7, #fde68a);
+            color: #92400e;
+        }
+
+        .status-investigating {
+            background: linear-gradient(45deg, #dbeafe, #bfdbfe);
+            color: #1e40af;
+        }
+
+        .status-resolved {
+            background: linear-gradient(45deg, #d1fae5, #a7f3d0);
+            color: #065f46;
+        }
+
+        .status-dismissed {
+            background: linear-gradient(45deg, #fee2e2, #fecaca);
+            color: #991b1b;
+        }
+
+        .employee-card {
+            background: linear-gradient(135deg, white, #f8fafc);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .employee-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .employee-card.flagged {
+            border-left-color: var(--warning);
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+        }
+
+        .employee-card.critical {
+            border-left-color: var(--danger);
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+        }
+
+        .strikes-indicator {
+            display: flex;
+            gap: 3px;
+            margin-top: 10px;
+            align-items: center;
+        }
+
+        .strike {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .strike.active {
+            background: linear-gradient(45deg, var(--danger), #dc2626);
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+        }
+
+        .anonymous-notice {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid #0ea5e9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 8px rgba(14, 165, 233, 0.1);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .payment-method {
+            background: linear-gradient(135deg, white, #f8fafc);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            box-shadow: 0 4px 8px rgba(30, 64, 175, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+
+            .ashoka-side {
+                display: none;
+            }
+
+            .login-form-side {
+                padding: 30px;
+            }
+
+            .login-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-tab {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .logout-btn {
+                position: static;
+                margin-top: 10px;
+            }
+
+            .user-info {
+                position: static;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-form-side {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-page">
+        <div class="login-container">
+            <!-- Ashoka Pillar Side -->
+            <div class="ashoka-side">
+                <!-- India's National Emblem -->
+                <div class="national-emblem">
+                    <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Lotus Base -->
+                        <ellipse cx="100" cy="220" rx="85" ry="15" fill="#228B22" opacity="0.8"/>
+                        
+                        <!-- Bell-shaped Lotus -->
+                        <path d="M 30 220 Q 100 200 170 220 Q 100 185 30 220" fill="#32CD32"/>
+                        
+                        <!-- Pillar Shaft -->
+                        <rect x="85" y="130" width="30" height="90" fill="url(#shaftGradient)" rx="3"/>
+                        
+                        <!-- Abacus (Drum) -->
+                        <ellipse cx="100" cy="130" rx="50" ry="15" fill="#DAA520"/>
+                        <rect x="50" y="115" width="100" height="30" fill="url(#abacusGradient)" rx="5"/>
+                        
+                        <!-- Four Lions (simplified) -->
+                        <g transform="translate(100,85)">
+                            <ellipse cx="0" cy="10" rx="15" ry="12" fill="url(#lionGradient)"/>
+                            <circle cx="0" cy="-5" r="12" fill="url(#lionGradient)"/>
+                            <circle cx="0" cy="-5" r="15" fill="#B8860B" opacity="0.8"/>
+                            <circle cx="-4" cy="-8" r="1.5" fill="#000"/>
+                            <circle cx="4" cy="-8" r="1.5" fill="#000"/>
+                        </g>
+                        
+                        <!-- Central Dharma Chakra -->
+                        <g transform="translate(100,45)">
+                            <circle r="20" fill="#000080" stroke="#FFF" stroke-width="2"/>
+                            <circle r="15" fill="none" stroke="#FFF" stroke-width="1"/>
+                            <circle r="3" fill="#FFF"/>
+                            <!-- 8 main spokes -->
+                            <g stroke="#FFF" stroke-width="1">
+                                <line x1="0" y1="-15" x2="0" y2="-20"/>
+                                <line x1="10.6" y1="-10.6" x2="14.1" y2="-14.1"/>
+                                <line x1="15" y1="0" x2="20" y2="0"/>
+                                <line x1="10.6" y1="10.6" x2="14.1" y2="14.1"/>
+                                <line x1="0" y1="15" x2="0" y2="20"/>
+                                <line x1="-10.6" y1="10.6" x2="-14.1" y2="14.1"/>
+                                <line x1="-15" y1="0" x2="-20" y2="0"/>
+                                <line x1="-10.6" y1="-10.6" x2="-14.1" y2="-14.1"/>
+                            </g>
+                        </g>
+                        
+                        <!-- Gradients -->
+                        <defs>
+                            <linearGradient id="lionGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#DAA520;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="abacusGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#DAA520;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="shaftGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#F4A460;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#D2691E;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="motto">
+                    <div class="motto-hindi">सत्यमेव जयते</div>
+                    <div>Truth Alone Triumphs</div>
+                </div>
+                <div style="margin-top: 30px; text-align: center;">
+                    <h3>Digital India Initiative</h3>
+                    <p style="font-size: 14px; margin-top: 10px; opacity: 0.9;">
+                        Empowering citizens through transparent governance and digital services
+                    </p>
+                </div>
+            </div>
+
+            <!-- Login Form Side -->
+            <div class="login-form-side">
+                <div class="login-header">
+                    <h1><i class="fas fa-shield-alt"></i> CitizenConnect</h1>
+                    <p>Secure Government Services Portal</p>
+                    <div class="security-badge">
+                        <i class="fas fa-lock"></i> Government Authorized Portal
+                    </div>
+                </div>
+
+                <div class="government-notice">
+                    <i class="fas fa-info-circle"></i>
+                    This is an official government portal. Your data is protected under the Digital India Act.
+                </div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username / Email</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                class="with-icon"
+                                placeholder="Enter your username or email"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="aadhar">Aadhaar Card Number</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-id-card input-icon"></i>
+                            <input 
+                                type="text" 
+                                id="aadhar" 
+                                class="with-icon"
+                                placeholder="Enter 12-digit Aadhaar number"
+                                maxlength="14"
+                                pattern="[0-9]{4}[\s][0-9]{4}[\s][0-9]{4}"
+                                required
+                            >
+                        </div>
+                        <div class="aadhar-format">Format: XXXX XXXX XXXX (12 digits)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-key input-icon"></i>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                class="with-icon"
+                                placeholder="Enter your secure password"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <button type="submit" class="login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Secure Login
+                    </button>
+                </form>
+
+                <div class="login-options">
+                    <a href="#" id="forgotPassword">Forgot Password?</a> |
+                    <a href="#" id="registerNew">New Registration</a> |
+                    <a href="#" id="helpSupport">Help & Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="dashboard-page">
+        <div class="container">
+            <div class="header">
+                <div class="user-info" id="userInfo">Welcome, User!</div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+                <h1><i class="fas fa-shield-alt"></i> CitizenConnect</h1>
+                <p>Secure Government Services Portal - Transparency Through Technology</p>
+                <div class="security-badge">
+                    <i class="fas fa-lock"></i> SSL Encrypted & Anonymous
+                </div>
+            </div>
+
+            <div class="nav-tabs">
+                <div class="nav-tab active" onclick="switchTab('services')">
+                    <i class="fas fa-concierge-bell"></i> Pay for Services
+                </div>
+                <div class="nav-tab" onclick="switchTab('report')">
+                    <i class="fas fa-exclamation-triangle"></i> Report Misconduct
+                </div>
+                <div class="nav-tab" onclick="switchTab('dashboard')">
+                    <i class="fas fa-chart-line"></i> Transparency Dashboard
+                </div>
+                <div class="nav-tab" onclick="switchTab('track')">
+                    <i class="fas fa-search"></i> Track Complaint
+                </div>
+            </div>
+
+            <!-- Services Tab -->
+            <div id="services" class="tab-content active">
+                <script>
+        // Format Aadhaar number input
+        document.getElementById('aadhar').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = '';
+            
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+            
+            e.target.value = formattedValue;
+        });
+
+        // Form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const aadhar = document.getElementById('aadhar').value.replace(/\s+/g, '');
+            const password = document.getElementById('password').value;
+            
+            // Basic validation
+            if (aadhar.length !== 12) {
+                alert('Please enter a valid 12-digit Aadhaar number.');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long.');
+                return;
+            }
+            
+            // Simulate login process
+            const loginBtn = document.querySelector('.login-btn');
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+            loginBtn.disabled = true;
+            
+            setTimeout(() => {
+    // Instead of alert, you can directly redirect
+    window.location.href = "Main.html"; // <-- change this path to your target file
+    
+    // If you still want alert before redirect, do:
+    // alert("Login successful!");
+    // window.location.href = "dashboard.html";
+}, 2000);
+        });
+
+        // Help links
+        document.getElementById('forgotPassword').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Password Recovery:\n\nPlease visit your nearest Common Service Center (CSC) with your Aadhaar card and a valid mobile number to reset your password.\n\nOr call the helpline: 1800-XXX-XXXX');
+        });
+
+        document.getElementById('registerNew').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('New User Registration:\n\nTo register for CitizenConnect:\n1. Visit your nearest CSC\n2. Bring original Aadhaar card\n3. Provide mobile number for OTP verification\n4. Create a secure password\n\nRegistration is free and takes 5-10 minutes.');
+        });
+
+        document.getElementById('helpSupport').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Help & Support:\n\n📞 Helpline: 1800-XXX-XXXX\n📧 Email: support@citizenconnect.gov.in\n🌐 FAQ: www.citizenconnect.gov.in/help\n\nService hours: 24/7\nLanguages: Hindi, English, Regional Languages');
+        });
+    </script>
+    </body>
+    </html>
